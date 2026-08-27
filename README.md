@@ -2,7 +2,7 @@
 
 An agent that converts natural-language questions into SQL, executes them
 against a real database, and self-corrects if the query fails or returns
-nothing useful.
+nothing useful. Built using the Anthropic API (Claude).
 
 ## How it works
 
@@ -28,7 +28,7 @@ python -m venv venv
 source venv/bin/activate  # on Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-export OPENAI_API_KEY="sk-..."   # or put it in a .env file
+export ANTHROPIC_API_KEY="sk-ant-..."   # or put it in a .env file
 
 python -m app.seed_db            # creates and seeds sample.db
 ```
@@ -86,3 +86,6 @@ point at a real Postgres/Snowflake database if you want to extend this.
   once you point this at anything real.
 - **Retry cap of 3** — prevents runaway loops/costs if the LLM keeps
   generating broken SQL for a genuinely ambiguous question.
+- **Claude (Anthropic API)** — used here instead of OpenAI. The system
+  prompt is passed as a top-level `system` param rather than a message
+  with `role: "system"`, and responses come back as `content[0].text`.
